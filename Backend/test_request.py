@@ -1,8 +1,15 @@
 import requests
 
-url = "http://127.0.0.1:5000/detect"
+url = "http://127.0.0.1:5000/"
 data = {
-    "text": "The quick brown fox jumps over the lazy dog. Scientists discovered a new species in the Pacific Ocean."
+    "text": "Scientists discover new species in Pacific Ocean."  # Real-time news example
 }
-response = requests.post(url, json=data)
-print(response.json())
+try:
+    print(f"Sending POST request to {url}")
+    response = requests.post(url, json=data, timeout=5)
+    print(f"Response status: {response.status_code}")
+    print(f"Response text: {response.text}")
+    response.raise_for_status()
+    print(response.json())
+except requests.RequestException as e:
+    print(f"Request failed: {str(e)}")
