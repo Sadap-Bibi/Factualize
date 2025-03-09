@@ -1,6 +1,6 @@
 body {
   font-family: 'Arial', sans-serif;
-  background: linear-gradient(135deg, #f4f4f9, #d9e6ff); /* Newsy gradient */
+  background: linear-gradient(135deg, #f4f4f9, #d9e6ff);
   margin: 0;
   padding: 0;
   display: flex;
@@ -15,13 +15,13 @@ body {
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  width: 700px; /* Wider for laptop */
+  width: 700px;
   text-align: center;
   transition: transform 0.3s ease;
 }
 
 .container:hover {
-  transform: scale(1.02); /* Slight zoom on hover */
+  transform: scale(1.02);
 }
 
 h1 {
@@ -34,7 +34,7 @@ h1 {
 
 textarea {
   width: 100%;
-  height: 120px; /* Shorter for laptop */
+  height: 120px;
   padding: 12px;
   border: 2px solid #b3c7ff;
   border-radius: 6px;
@@ -119,10 +119,10 @@ button:hover {
 
 #statusIcon {
   margin-right: 8px;
-  font-size: 22px; /* Ensure large enough to display */
-  vertical-align: middle; /* Align with text */
-  display: inline-block; /* Ensure it renders properly */
-  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif; /* Emoji-compatible fonts */
+  font-size: 22px;
+  vertical-align: middle;
+  display: inline-block;
+  font-family: 'Segoe UI Emoji', 'Apple Color Emoji', 'Noto Color Emoji', sans-serif;
 }
 
 #confidenceBar {
@@ -148,11 +148,11 @@ button:hover {
 }
 
 .fake #confidenceFill {
-  background: linear-gradient(to right, #ff1a1a, #ff6666); /* Red for fake */
+  background: linear-gradient(to right, #ff1a1a, #ff6666);
 }
 
 .real #confidenceFill {
-  background: linear-gradient(to right, #00cc00, #66ff66); /* Green for real */
+  background: linear-gradient(to right, #00cc00, #66ff66);
 }
 
 #similarityChart {
@@ -174,17 +174,12 @@ button:hover {
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #e0e6ff;
-}
-
-#summary.live-news {
-  white-space: pre-wrap; /* Preserve newlines */
-  max-height: 150px; /* Limit height */
-  overflow-y: auto; /* Scroll if too long */
+  white-space: pre-wrap;
+  max-height: 200px; /* Increased height for more info */
+  overflow-y: auto;
   text-align: left;
-  padding: 10px;
 }
 
-/* Fake News Styling */
 .fake {
   background: #ff4d4d;
   color: white;
@@ -194,7 +189,6 @@ body.fake-bg {
   background: linear-gradient(135deg, #ffcccc, #ff9999);
 }
 
-/* Real News Styling */
 .real {
   background: #4dff4d;
   color: #1a1a1a;
@@ -204,14 +198,6 @@ body.real-bg {
   background: linear-gradient(135deg, #ccffcc, #99ff99);
 }
 
-/* Ensure chart legend colors */
-#similarityChart {
-  --fake-color: #ff1a1a;
-  --real-color: #00cc00;
-  --remaining-color: #b3b3b3;
-}
-
-/* Responsive Adjustments */
 @media (max-width: 600px) {
   .container {
       width: 90%;

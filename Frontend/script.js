@@ -1,4 +1,3 @@
-// Global variable to store the chart instance
 let chartInstance = null;
 
 document.getElementById('newsForm').addEventListener('submit', async (e) => {
@@ -37,64 +36,45 @@ function displayResults(data) {
     const confidenceEl = document.getElementById('confidence');
     const confidenceFill = document.getElementById('confidenceFill');
     const summaryEl = document.getElementById('summary');
-    const body = document.body;
 
-    // Null checks for critical elements
     if (!resultsDiv || !isFakeEl || !statusIcon || !confidenceEl || !confidenceFill || !summaryEl) {
-        console.error("One or more DOM elements are missing:", {
-            resultsDiv, isFakeEl, statusIcon, confidenceEl, confidenceFill, summaryEl
-        });
+        console.error("One or more DOM elements are missing.");
         return;
     }
 
-    // Show results with animation
     resultsDiv.classList.remove('hidden');
     resultsDiv.classList.add('show');
 
-    // Apply fake/real styling and emojis
     if (data.is_fake) {
         isFakeEl.textContent = "Likely Fake News";
         statusIcon.textContent = "⚠️";
-        console.log("Setting fake icon to:", statusIcon.textContent);
         isFakeEl.classList.remove('real');
         isFakeEl.classList.add('fake');
-        body.classList.remove('real-bg');
-        body.classList.add('fake-bg');
+        document.body.classList.remove('real-bg');
+        document.body.classList.add('fake-bg');
     } else {
         isFakeEl.textContent = "Likely Real News";
         statusIcon.textContent = "✅";
-        console.log("Setting real icon to:", statusIcon.textContent);
         isFakeEl.classList.remove('fake');
         isFakeEl.classList.add('real');
-        body.classList.remove('fake-bg');
-        body.classList.add('real-bg');
+        document.body.classList.remove('fake-bg');
+        document.body.classList.add('real-bg');
     }
 
-    // Update confidence bar and text
     confidenceEl.textContent = `Confidence: ${data.confidence}%`;
-    console.log("Setting confidence fill width to:", `${data.confidence}%`);
     confidenceFill.style.width = `${Math.max(0, Math.min(100, data.confidence))}%`;
-    console.log("Confidence fill width set to:", confidenceFill.style.width);
-    if (data.is_fake) {
-        confidenceFill.style.background = "linear-gradient(to right, #ff1a1a, #ff6666)";
-    } else {
-        confidenceFill.style.background = "linear-gradient(to right, #00cc00, #66ff66)";
-    }
+    confidenceFill.style.background = data.is_fake 
+        ? "linear-gradient(to right, #ff1a1a, #ff6666)" 
+        : "linear-gradient(to right, #00cc00, #66ff66)";
 
-    // Update summary with closest headline if real, or a message if fake
-    if (!data.is_fake && data.closest_headline) {
-        summaryEl.textContent = `Matching Headline: ${data.closest_headline}`;
-    } else {
-        summaryEl.textContent = "No matching headline found. This news may be fake.";
-    }
+    summaryEl.innerHTML = `
+        ${!data.is_fake && data.closest_headline ? `Matching Headline: ${data.closest_headline}\n` : "No matching headline found.\n"}
+        Top 3 Matches (Heap):\n${data.top_matches_heap.map(m => `${m[1]} (${m[0].toFixed(2)})`).join('\n')}\n
+        Top 3 Matches (BST):\n${data.top_matches_bst.map(m => `${m[1]} (${m[0].toFixed(2)})`).join('\n')}\n
+        Clustered: ${data.is_clustered ? 'Yes' : 'No'} (Cluster Size: ${data.cluster_size})
+    `;
 
-    // Destroy previous chart instance if it exists
-    if (chartInstance) {
-        chartInstance.destroy();
-        console.log("Destroyed previous chart instance");
-    }
-
-    // Render new similarity chart
+    if (chartInstance) chartInstance.destroy();
     const ctx = document.getElementById('similarityChart').getContext('2d');
     chartInstance = new Chart(ctx, {
         type: 'pie',
@@ -111,20 +91,8 @@ function displayResults(data) {
             responsive: true,
             maintainAspectRatio: false,
             plugins: {
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        generateLabels: function(chart) {
-                            const data = chart.data;
-                            return data.labels.map((label, i) => ({
-                                text: `${label}: ${data.datasets[0].data[i]}%`,
-                                fillStyle: data.datasets[0].backgroundColor[i],
-                                font: { size: 12 }
-                            }));
-                        }
-                    }
-                },
-                title: { display: true, text: 'Confidence Breakdown', font: { size: 14 } }
+                legend: { position: 'bottom' },
+                title: { display: true, text: 'Confidence Breakdown' }
             }
         }
     });
