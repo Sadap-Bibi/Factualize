@@ -12,7 +12,7 @@ function App() {
     setLoading(true);
     setError(null);
     try {
-      const response = await fetch(process.env.REACT_APP_API_URL || 'https://your-factualize.onrender.com/', {
+      const response = await fetch('http://localhost:5000/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
