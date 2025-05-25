@@ -2,7 +2,7 @@ import requests
 
 url = "http://127.0.0.1:5000/"
 data = {
-    "text": "Scientists discover new species in Pacific Ocean."  # Real-time news example
+    "text": "Scientists discover new species in Pacific Ocean." 
 }
 try:
     print(f"Sending POST request to {url}")

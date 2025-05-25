@@ -5,12 +5,12 @@ from fake_news_detector import detect_fake_news
 from nlp_utils import preprocess_text
 
 app = Flask(__name__)
-CORS(app, resources={r"/": {"origins": "http://localhost:8000"}})
+CORS(app, resources={r"/": {"origins": "http://localhost:3000"}})
 
 @app.route('/', methods=['POST', 'OPTIONS'])
 def detect():
     if request.method == 'OPTIONS':
-        return '', 204  # Handle CORS preflight
+        return '', 204  
     print("Received POST request to /")
     try:
         if not request.is_json:
